@@ -1,0 +1,171 @@
+VERSION = 1,
+
+perk FW_Territory
+{
+    parent = None,
+    translation = FW_Territory,
+    passive = false,
+    xp1 = 50,
+    xp2 = 100,
+    xp3 = 200,
+    xp4 = 500,
+    xp5 = 1000,
+    xp6 = 2000,
+    xp7 = 3000,
+    xp8 = 4000,
+    xp9 = 5000,
+    xp10 = 6000,
+}
+
+perk FW_ZoneStandard
+{
+    parent = FW_Territory,
+    translation = FW_ZoneStandard,
+    passive = false,
+    xp1 = 150,
+    xp2 = 300,
+    xp3 = 900,
+    xp4 = 1500,
+    xp5 = 3000,
+    xp6 = 6000,
+    xp7 = 12000,
+    xp8 = 18000,
+    xp9 = 25000,
+    xp10 = 99000,
+}
+
+perk FW_ZoneArmory
+{
+    parent = FW_Territory,
+    translation = FW_ZoneArmory,
+    passive = false,
+    xp1 = 150,
+    xp2 = 300,
+    xp3 = 900,
+    xp4 = 1500,
+    xp5 = 3000,
+    xp6 = 6000,
+    xp7 = 12000,
+    xp8 = 18000,
+    xp9 = 25000,
+    xp10 = 99000,
+}
+
+perk FW_ZoneHospital
+{
+    parent = FW_Territory,
+    translation = FW_ZoneHospital,
+    passive = false,
+    xp1 = 150,
+    xp2 = 300,
+    xp3 = 900,
+    xp4 = 1500,
+    xp5 = 3000,
+    xp6 = 6000,
+    xp7 = 12000,
+    xp8 = 18000,
+    xp9 = 25000,
+    xp10 = 99000,
+}
+
+perk FW_ZoneWorkshop
+{
+    parent = FW_Territory,
+    translation = FW_ZoneWorkshop,
+    passive = false,
+    xp1 = 150,
+    xp2 = 300,
+    xp3 = 900,
+    xp4 = 1500,
+    xp5 = 3000,
+    xp6 = 6000,
+    xp7 = 12000,
+    xp8 = 18000,
+    xp9 = 25000,
+    xp10 = 99000,
+}
+
+perk FW_ZoneBunker
+{
+    parent = FW_Territory,
+    translation = FW_ZoneBunker,
+    passive = false,
+    xp1 = 150,
+    xp2 = 300,
+    xp3 = 900,
+    xp4 = 1500,
+    xp5 = 3000,
+    xp6 = 6000,
+    xp7 = 12000,
+    xp8 = 18000,
+    xp9 = 25000,
+    xp10 = 99000,
+}
+
+perk FW_ZoneIndustrial
+{
+    parent = FW_Territory,
+    translation = FW_ZoneIndustrial,
+    passive = false,
+    xp1 = 150,
+    xp2 = 300,
+    xp3 = 900,
+    xp4 = 1500,
+    xp5 = 3000,
+    xp6 = 6000,
+    xp7 = 12000,
+    xp8 = 18000,
+    xp9 = 25000,
+    xp10 = 99000,
+}
+
+perk FW_ZoneEstacao
+{
+    parent = FW_Territory,
+    translation = FW_ZoneEstacao,
+    passive = false,
+    xp1 = 150,
+    xp2 = 300,
+    xp3 = 900,
+    xp4 = 1500,
+    xp5 = 3000,
+    xp6 = 6000,
+    xp7 = 12000,
+    xp8 = 18000,
+    xp9 = 25000,
+    xp10 = 99000,
+}
+
+perk FW_ZoneUmbrella
+{
+    parent = FW_Territory,
+    translation = FW_ZoneUmbrella,
+    passive = false,
+    xp1 = 150,
+    xp2 = 300,
+    xp3 = 900,
+    xp4 = 1500,
+    xp5 = 3000,
+    xp6 = 6000,
+    xp7 = 12000,
+    xp8 = 18000,
+    xp9 = 25000,
+    xp10 = 99000,
+}
+
+perk FW_ZonePosto
+{
+    parent = FW_Territory,
+    translation = FW_ZonePosto,
+    passive = false,
+    xp1 = 150,
+    xp2 = 300,
+    xp3 = 900,
+    xp4 = 1500,
+    xp5 = 3000,
+    xp6 = 6000,
+    xp7 = 12000,
+    xp8 = 18000,
+    xp9 = 25000,
+    xp10 = 99000,
+}

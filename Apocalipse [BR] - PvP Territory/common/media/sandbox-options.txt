@@ -1,0 +1,131 @@
+VERSION = 1,
+
+option FactionWar.CaptureTime
+{
+    type = integer,
+    min = 10,
+    max = 3600,
+    default = 1000,
+    page = FactionWar_General,
+    translation = FactionWar_CaptureTime,
+}
+
+option FactionWar.AnnounceCapture
+{
+    type = boolean,
+    default = true,
+    page = FactionWar_General,
+    translation = FactionWar_AnnounceCapture,
+}
+
+option FactionWar.CapturePointsPerTick
+{
+    type = enum,
+    numValues = 5,
+    default = 3,
+    page = FactionWar_General,
+    translation = FactionWar_CapturePointsPerTick,
+    valueTranslation = FactionWar_EnumCaptureSpeed,
+}
+
+option FactionWar.DecaySpeed
+{
+    type = enum,
+    numValues = 5,
+    default = 3,
+    page = FactionWar_General,
+    translation = FactionWar_DecaySpeed,
+    valueTranslation = FactionWar_EnumDecaySpeed,
+}
+
+option FactionWar.SalaryItemType
+{
+    type = enum,
+    numValues = 5,
+    default = 1,
+    page = FactionWar_General,
+    translation = FactionWar_SalaryItemType,
+    valueTranslation = FactionWar_EnumSalaryType,
+}
+
+option FactionWar.SalaryAmount
+{
+    type = integer,
+    min = 1,
+    max = 100,
+    default = 1,
+    page = FactionWar_General,
+    translation = FactionWar_SalaryAmount,
+}
+
+option FactionWar.PassiveXPAmount
+{
+    type = double,
+    min = 0.0,
+    max = 100.0,
+    default = 0.2,
+    page = FactionWar_General,
+    translation = FactionWar_PassiveXPAmount,
+}
+
+option FactionWar.OfflineProtection
+{
+    type = boolean,
+    default = true,
+    page = FactionWar_General,
+    translation = FactionWar_OfflineProtection,
+}
+
+option FactionWar.OfflineProtectionExpiry
+{
+    type = integer,
+    min = 0,
+    max = 720,
+    default = 24,
+    page = FactionWar_General,
+    translation = FactionWar_OfflineProtectionExpiry,
+}
+
+option FactionWar.AbandonmentTimeout
+{
+    type = integer,
+    min = 0,
+    max = 2160,
+    default = 168,
+    page = FactionWar_General,
+    translation = FactionWar_AbandonmentTimeout,
+}
+
+option FactionWar.CustomSalaryItem
+{
+    type = string,
+    default = "",
+    page = FactionWar_General,
+    translation = FactionWar_CustomSalaryItem,
+}
+
+option FactionWar.CustomCrateItem
+{
+    type = string,
+    default = "",
+    page = FactionWar_General,
+    translation = FactionWar_CustomCrateItem,
+}
+
+option FactionWar.CrateLootAmount
+{
+    type = integer,
+    min = 1,
+    max = 500,
+    default = 15,
+    page = FactionWar_General,
+    translation = FactionWar_CrateLootAmount,
+}
+
+option FactionWar.CrateBonusLoot
+{
+    type = boolean,
+    default = true,
+    page = FactionWar_General,
+    translation = FactionWar_CrateBonusLoot,
+}

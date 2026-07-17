@@ -1,0 +1,11 @@
+name=ApocalipseBR - PvP Territory System
+author=Hypothetic
+poster=poster.png
+icon=icon.png
+id=Apoc_PvP_territory_system
+modversion=1.0
+versionMin=42.19
+description=<RGB:0.2,1,0.3>Adds a multiplayer-focused territory system: Conquest a zone through PvP activities
+url=https://apocalipse.cloud/
+require=ApocalipseBR_Regioes
+loadModAfter=ApocalipseBR_Regioes

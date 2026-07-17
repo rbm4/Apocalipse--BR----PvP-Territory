@@ -1,0 +1,18 @@
+FactionWar_EN = {
+    IGUI_FactionWar_Training = "Training in Progress... (+XP)",
+    IGUI_FactionWar_ZoneUnderAttack = "⚠ %1 IS UNDER ATTACK by %2!",
+    IGUI_FactionWar_ZoneCapturedNeutral = "[ZONE CAPTURED] %1 has claimed %2!",
+    IGUI_FactionWar_ZoneCapturedEnemy = "[ZONE CAPTURED] %1 has seized %2 from %3!",
+    IGUI_FactionWar_FactionPayday = "FACTION PAYDAY: Received %1 items!",
+    IGUI_FactionWar_BuffsActive = "✚ Buffs Active (%1)",
+    IGUI_FactionWar_NoZonesDefined = "No Zones Defined",
+    IGUI_FactionWar_ZoneTitle = "FACTION ZONES",
+    IGUI_FactionWar_Fight = "⚔ FIGHT",
+    IGUI_FactionWar_Safe = "🛡 SAFE",
+    IGUI_FactionWar_Neutral = "Neutral",
+    IGUI_FactionWar_RadioAlertAttack = "[FACTION WAR] %1 is attacking %2's zone: %3!",
+
+    UI_optionscreen_binding_Toggle_Faction_Zones = "Toggle Faction Zones",
+    UI_optionscreen_binding_Faction_War = "Faction War",
+    UI_optionscreen_binding_[Faction_War] = "Faction War",
+}

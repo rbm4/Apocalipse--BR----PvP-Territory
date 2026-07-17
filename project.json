@@ -1,0 +1,23 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Konijima/project-zomboid-studio/master/pzstudio.schema.json",
+    "title": "Apocalipse [BR] - PvP Territory",
+    "authors": [],
+    "workshop": {
+        "id":3765956095,
+        "visibility": "public",
+        "tags": [
+            "Build 42",
+            "Map",
+            "Military",
+            "Items",
+            "Framework"
+        ],
+        "excludes": []
+    },
+    "mods": {
+        "Apocalipse [BR] - PvP Territory": {
+            "name": "Apocalipse [BR] - PvP Territory",
+            "description": ""
+        }
+    }
+}

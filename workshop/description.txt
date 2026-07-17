@@ -1,0 +1,72 @@
+﻿[h1]Apocalipse [BR] - PvP Territory[/h1]
+
+Adds a faction-driven territory conquest system built for multiplayer PvP servers. Factions fight for control of marked zones, defend their holdings, form alliances, and earn rewards from the land they manage to keep.
+
+[h2]Core Features[/h2]
+[list]
+[*]Faction territory capture zones with live ownership, attacker, contested, and protection states.
+[*]Capture progress based on faction presence inside a zone, with defenders and allied factions able to contest attacks.
+[*]Configurable capture speed and decay speed through sandbox options.
+[*]Offline raid protection so territories can be protected while the defending faction has no members online, with optional expiry.
+[*]Faction abandonment cleanup that can return zones to Neutral after long inactivity.
+[*]Global and local alerts for attacks, captures, abandoned zones, and faction payday rewards.
+[/list]
+
+[h2]Faction Tools and UI[/h2]
+[list]
+[*]On-screen capture progress bar when standing inside a territory.
+[*]Faction control panel with territory lists, map display, ownership status, and diplomacy tools.
+[*]World map rendering for controlled zones, using faction colors where available.
+[*]Keybind support for opening the faction territory interface.
+[*]Context-menu access to the faction control panel in-game.
+[/list]
+
+[h2]Admin Zone Management[/h2]
+[list]
+[*]Admins can create custom conquest zones directly in-game.
+[*]Zones support names, coordinates, Z-level ranges, and zone types.
+[*]Admins can rename, delete, teleport to, and change the type of custom zones.
+[*]Reward containers can be linked to territories through the world object context menu.
+[*]Zone data is synchronized through ModData for multiplayer use.
+[/list]
+
+[h2]Rewards and Progression[/h2]
+[list]
+[*]Daily faction salary rewards at 9:00 AM, paid per owned zone to online faction members.
+[*]Linked reward crates refill every 24 in-game hours for the faction that owns the zone.
+[*]Configurable salary item, salary amount, crate loot item, crate loot amount, and bonus crate loot.
+[*]Advanced custom item ID support for salary and crate rewards.
+[*]Passive XP support while players are inside a zone owned by their faction or an allied faction.
+[*]Different zone types can provide themed bonus crate loot, such as armory, hospital, workshop, and standard rewards.
+[/list]
+
+[h2]Diplomacy[/h2]
+[list]
+[*]Faction leaders can send alliance invites to other factions.
+[*]Alliances are mutual and affect territory defense and contested-zone logic.
+[*]Alliance invites can be accepted, declined, or revoked through the faction interface.
+[/list]
+
+[h2]Server Configuration[/h2]
+[list]
+[*]Capture time.
+[*]Capture speed multiplier.
+[*]Decay speed multiplier.
+[*]Global capture announcements.
+[*]Daily salary reward type and amount.
+[*]Passive XP amount.
+[*]Offline raid protection and expiry time.
+[*]Faction abandonment timeout.
+[*]Custom salary and crate reward item IDs.
+[*]Crate loot amount and bonus loot toggle.
+[/list]
+
+[h2]PvP Focus[/h2]
+This mod is designed for servers that want factions to have real strategic reasons to fight, patrol, negotiate, and defend. Territories are intended to become conflict points: places worth scouting, raiding, reinforcing, and holding over time.
+
+[h2]Notes[/h2]
+[list]
+[*]This mod is intended for multiplayer PvP environments.
+[*]Admins should configure zones and rewards to match their server economy and PvP rules.
+[*]Existing hardcoded zones are disabled by default; custom zones can be created in-game by admins.
+[/list]

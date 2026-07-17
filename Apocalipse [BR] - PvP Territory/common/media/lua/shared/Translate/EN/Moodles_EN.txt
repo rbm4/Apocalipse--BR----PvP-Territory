@@ -1,0 +1,10 @@
+Moodles_EN {
+    Moodles_FactionZone_Good_lvl1 = "Zone Buffs Active",
+    Moodles_FactionZone_Good_desc_lvl1 = "+XP, +Endurance, -Stress, -Hunger",
+    Moodles_FactionZone_Good_lvl2 = "Zone Buffs Active",
+    Moodles_FactionZone_Good_desc_lvl2 = "+XP, +Endurance, -Stress, -Hunger",
+    Moodles_FactionZone_Good_lvl3 = "Zone Buffs Active",
+    Moodles_FactionZone_Good_desc_lvl3 = "+XP, +Endurance, -Stress, -Hunger",
+    Moodles_FactionZone_Good_lvl4 = "Zone Buffs Active",
+    Moodles_FactionZone_Good_desc_lvl4 = "+XP, +Endurance, -Stress, -Hunger",
+}
