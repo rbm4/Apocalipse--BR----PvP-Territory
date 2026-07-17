@@ -828,6 +828,11 @@ function FactionControlPanelUI:populateZones()
     end
 end
 
+local function setButtonEnabledSafe(button, enabled)
+    if button and button.setEnable then
+        button:setEnable(enabled)
+    end
+end
 function FactionControlPanelUI:populateZonesListAdmin()
     if not getIsAdmin() or not self.adminZoneList then return end
     
@@ -852,9 +857,9 @@ function FactionControlPanelUI:populateZonesListAdmin()
     
     if #zones == 0 then
         self.adminZoneList:addItem(getText("IGUI_FactionMapEditor_NoDynamicZonesFound"), nil)
-        self.btnTeleport:setEnable(false)
-        self.btnRename:setEnable(false)
-        self.btnDelete:setEnable(false)
+        setButtonEnabledSafe(self.btnTeleport, false)
+        setButtonEnabledSafe(self.btnRename, false)
+        setButtonEnabledSafe(self.btnDelete, false)
         return
     end
     
@@ -865,9 +870,9 @@ function FactionControlPanelUI:populateZonesListAdmin()
     end
     
     self.adminZoneList.selected = 1
-    self.btnTeleport:setEnable(true)
-    self.btnRename:setEnable(true)
-    self.btnDelete:setEnable(true)
+    setButtonEnabledSafe(self.btnTeleport, true)
+    setButtonEnabledSafe(self.btnRename, true)
+    setButtonEnabledSafe(self.btnDelete, true)
 end
 
 -- =======================================================
@@ -1293,3 +1298,4 @@ local function OnFillWorldObjectContextMenu(playerNum, context, worldobjects, te
 end
 
 Events.OnFillWorldObjectContextMenu.Add(OnFillWorldObjectContextMenu)
+

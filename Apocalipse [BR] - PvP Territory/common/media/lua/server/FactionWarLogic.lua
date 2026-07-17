@@ -6,6 +6,7 @@ if not isServer() then
 end
 
 local RegionManagerServer = require "RegionManager_Server"
+require "APZ_ZonedContainerGuard"
 
 local tickCounter = 0
 local syncTimer = 0
@@ -891,14 +892,33 @@ local function OnClientCommand(module, command, player, args)
         local zID = args.zoneID
 
         if customZones and customZones[zID] then
+            local linkedObject = APZ_ZonedContainerGuard.findContainerAt(args.x, args.y, args.z, args.objectIndex, args.spriteName)
+            if not linkedObject then
+                player:Say("Nenhum container encontrado para linkar.")
+                return
+            end
+
+            APZ_ZonedContainerGuard.registerLinkedContainer(linkedObject, {
+                id = zID,
+                name = customZones[zID].name,
+                type = "RewardContainer"
+            })
+
             customZones[zID].lootX = args.x
             customZones[zID].lootY = args.y
             customZones[zID].lootZ = args.z
+            customZones[zID].lootObjectIndex = args.objectIndex
+            customZones[zID].lootSpriteName = args.spriteName
 
             ModData.add("FactionZoneDefinitions", customZones)
             ModData.transmit("FactionZoneDefinitions")
             RefreshZoneList() -- Refresh server cache immediately
 
+            local syncArgs = APZ_ZonedContainerGuard.toObjectArgs(linkedObject)
+            if syncArgs then
+                syncArgs.zoneLink = APZ_ZonedContainerGuard.getObjectZoneLink(linkedObject)
+                sendServerCommand("APZ_ZonedContainerGuard", "syncObject", syncArgs)
+            end
             player:Say("Container Linkado para " .. customZones[zID].name)
             print("SERVER: Container Linkado para " .. customZones[zID].name)
         end
@@ -1211,3 +1231,4 @@ local function FixInventorySync()
     end
 end
 Events.EveryHours.Add(FixInventorySync)
+
