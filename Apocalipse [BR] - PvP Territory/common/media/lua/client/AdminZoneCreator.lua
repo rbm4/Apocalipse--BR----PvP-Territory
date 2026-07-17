@@ -6,6 +6,7 @@
 if isServer() then return end
 
 require "FactionZones"
+require "APZ_ZonedContainerGuard"
 
 local function OnRightClickContext(playerNum, context, worldobjects, test)
     local player = getSpecificPlayer(playerNum)
@@ -22,9 +23,15 @@ local function OnRightClickContext(playerNum, context, worldobjects, test)
     -- Scan clicked objects for a container (Crate, Fridge, Shelf, etc.)
     local clickedContainer = nil
     for _, obj in ipairs(worldobjects) do
-        if obj:getContainer() then
-            clickedContainer = obj
-            break
+        local objType = type(obj)
+        if objType == "table" or objType == "userdata" then
+            local ok, container = pcall(function()
+                return obj:getContainer()
+            end)
+            if ok and container then
+                clickedContainer = obj
+                break
+            end
         end
     end
 
@@ -38,7 +45,9 @@ local function OnRightClickContext(playerNum, context, worldobjects, test)
         local function linkCrate(zoneID, zoneName)
             local sq = clickedContainer:getSquare()
             if sq then
-                local args = { zoneID = zoneID, x = sq:getX(), y = sq:getY(), z = sq:getZ() }
+                local args = APZ_ZonedContainerGuard.toObjectArgs(clickedContainer) or { x = sq:getX(), y = sq:getY(), z = sq:getZ() }
+                args.zoneID = zoneID
+                args.zoneName = zoneName
                 sendClientCommand(player, "FactionWar", "SetRewardContainer", args)
                 player:Say("Reward Container Linked to zone '" .. zoneName .. "'!")
             end
@@ -76,3 +85,6 @@ local function OnRightClickContext(playerNum, context, worldobjects, test)
 end
 
 Events.OnFillWorldObjectContextMenu.Add(OnRightClickContext)
+
+
+
