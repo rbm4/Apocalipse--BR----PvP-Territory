@@ -85,5 +85,10 @@
     "IGUI_FactionMapEditor_DeleteZoneConfirm":  "Tem certeza que deseja deletar a zona \u0027%s\u0027?",
     "IGUI_FactionMapEditor_Say_ZoneDeleted":  "Zona deletada.",
     "IGUI_FactionMapEditor_Context_Territories":  "Territorios",
-    "IGUI_FactionMapEditor_Context_FactionPanel":  "Painel de faccao"
+    "IGUI_FactionMapEditor_Context_FactionPanel":  "Painel de faccao",
+    "IGUI_AdminZoneCreator_Context_LinkRewardCrate":  "Controle de faccao: Vincular caixa de recompensa",
+    "IGUI_AdminZoneCreator_DefaultSuffix":  "Padrao",
+    "IGUI_AdminZoneCreator_NoDynamicZonesFound":  "Nenhuma zona dinamica encontrada",
+    "IGUI_AdminZoneCreator_Say_RewardContainerLinked":  "Container de recompensa vinculado a zona \u0027%1\u0027!",
+    "IGUI_RewardCrate_Protected":  "Caixa de recompensa nao pode ser movida ou destruida."
 }

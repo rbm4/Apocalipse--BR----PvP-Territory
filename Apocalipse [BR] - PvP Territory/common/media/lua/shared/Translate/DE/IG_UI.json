@@ -84,5 +84,10 @@
     "IGUI_FactionMapEditor_DeleteZoneConfirm":  "Zone \u0027%s\u0027 wirklich loeschen?",
     "IGUI_FactionMapEditor_Say_ZoneDeleted":  "Zone geloescht.",
     "IGUI_FactionMapEditor_Context_Territories":  "Gebiete",
-    "IGUI_FactionMapEditor_Context_FactionPanel":  "Fraktionspanel"
+    "IGUI_FactionMapEditor_Context_FactionPanel":  "Fraktionspanel",
+    "IGUI_AdminZoneCreator_Context_LinkRewardCrate":  "Fraktionskontrolle: Belohnungskiste verknuepfen",
+    "IGUI_AdminZoneCreator_DefaultSuffix":  "Standard",
+    "IGUI_AdminZoneCreator_NoDynamicZonesFound":  "Keine dynamischen Zonen gefunden",
+    "IGUI_AdminZoneCreator_Say_RewardContainerLinked":  "Belohnungscontainer mit Zone \u0027%1\u0027 verknuepft!",
+    "IGUI_RewardCrate_Protected":  "Belohnungskiste kann nicht bewegt oder zerstoert werden."
 }

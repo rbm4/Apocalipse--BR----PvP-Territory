@@ -6,7 +6,6 @@ if not isServer() then
 end
 
 local RegionManagerServer = require "RegionManager_Server"
-require "APZ_ZonedContainerGuard"
 
 local tickCounter = 0
 local syncTimer = 0
@@ -254,6 +253,42 @@ local function GetZoneForPlayer(player)
 end
 
 -- 5. CAPTURE & LOOT LOGIC LOOP
+
+-- LOOT TABLE
+
+local lootTableZones = {{
+    name = "Standard",
+    loot = {"Base.Bandage", "Base.Painkillers", "Base.Soda", "Base.CannedBeans", "Base.CannedCorn", "Base.WaterBottle",
+            "Base.Cigarettes", "Base.Lighter"}
+}, {
+    name = "Armory",
+    loot = {"Base.Shotgun", "Base.Pistol", "Base.AssaultRifle", "Base.ShotgunShellsBox", "Base.556Box", "Base.308Box",
+            "Base.9mmClip", "Base.M14Clip", "Base.ScopeSmall", "Base.Sling"}
+}, {
+    name = "Hospital",
+    loot = {"Base.Bandage", "Base.Painkillers", "Base.Antibiotics", "Base.FirstAidKit", "Base.Disinfectant",
+            "Base.AlcoholWipes", "Base.SutureNeedle", "Base.Tweezers"}
+}, {
+    name = "Workshop",
+    loot = {"Base.DuctTape", "Base.Woodglue", "Base.Screws", "Base.Twine", "Base.NailsBox", "Base.Hammer",
+            "Base.Screwdriver", "Base.Saw", "Base.WeldingMask", "Base.BlowTorch", "Base.Wire"}
+}, {
+    name = "Bunker",
+    loot = {}
+}, {
+    name = "Industrial",
+    loot = {}
+}, {
+    name = "Estacao",
+    loot = {}
+}, {
+    name = "Umbrella",
+    loot = {}
+}, {
+    name = "Posto",
+    loot = {}
+}}
+
 local function CheckZoneCaptureProgress()
     if #zonesToProcess == 0 then
         RefreshZoneList()
@@ -622,30 +657,22 @@ local function CheckZoneCaptureProgress()
                             -- Bonus variety items based on zone type
                             if sb.CrateBonusLoot ~= false then
                                 if zone.zoneType == "Armory" then
-                                    local armoryLoot = {"Base.Shotgun", "Base.Pistol", "Base.AssaultRifle",
-                                                        "Base.ShotgunShellsBox", "Base.556Box", "Base.308Box",
-                                                        "Base.9mmClip", "Base.M14Clip", "Base.ScopeSmall", "Base.Sling"}
+                                    local armoryLoot = lootTableZones[1].loot
                                     for _ = 1, ZombRand(4, 10) do
                                         container:AddItem(armoryLoot[ZombRand(#armoryLoot) + 1])
                                     end
                                 elseif zone.zoneType == "Hospital" then
-                                    local medicalLoot = {"Base.Bandage", "Base.Painkillers", "Base.Antibiotics",
-                                                         "Base.FirstAidKit", "Base.Disinfectant", "Base.AlcoholWipes",
-                                                         "Base.SutureNeedle", "Base.Tweezers"}
+                                    local medicalLoot = lootTableZones[2].loot
                                     for _ = 1, ZombRand(5, 13) do
                                         container:AddItem(medicalLoot[ZombRand(#medicalLoot) + 1])
                                     end
                                 elseif zone.zoneType == "Workshop" then
-                                    local toolsLoot = {"Base.DuctTape", "Base.Woodglue", "Base.Screws", "Base.Twine",
-                                                       "Base.NailsBox", "Base.Hammer", "Base.Screwdriver", "Base.Saw",
-                                                       "Base.WeldingMask", "Base.BlowTorch", "Base.Wire"}
+                                    local toolsLoot = lootTableZones[3].loot
                                     for _ = 1, ZombRand(5, 11) do
                                         container:AddItem(toolsLoot[ZombRand(#toolsLoot) + 1])
                                     end
                                 else
-                                    local standardLoot = {"Base.Bandage", "Base.Painkillers", "Base.Soda",
-                                                          "Base.CannedBeans", "Base.CannedCorn", "Base.WaterBottle",
-                                                          "Base.Cigarettes", "Base.Lighter"}
+                                    local standardLoot = lootTableZones[0].loot
                                     for _ = 1, ZombRand(4, 9) do
                                         container:AddItem(standardLoot[ZombRand(#standardLoot) + 1])
                                     end
@@ -813,7 +840,7 @@ local function OnClientCommand(module, command, player, args)
             local regionDef = {
                 originalId = idToDelete
             }
-            RegionManagerServer.deleteHotRegion(player,regionDef)
+            RegionManagerServer.deleteHotRegion(player, regionDef)
             player:Say("Zona '" .. zName .. "' Deletada.")
         else
             player:Say("Error: Zone ID nao encontrado.")
@@ -883,7 +910,6 @@ local function OnClientCommand(module, command, player, args)
         end
     end
 
-    -- [NEW] LINK REWARD CRATE COMMAND
     if command == "SetRewardContainer" then
         if not isAdmin then
             return
@@ -892,35 +918,16 @@ local function OnClientCommand(module, command, player, args)
         local zID = args.zoneID
 
         if customZones and customZones[zID] then
-            local linkedObject = APZ_ZonedContainerGuard.findContainerAt(args.x, args.y, args.z, args.objectIndex, args.spriteName)
-            if not linkedObject then
-                player:Say("Nenhum container encontrado para linkar.")
-                return
-            end
-
-            APZ_ZonedContainerGuard.registerLinkedContainer(linkedObject, {
-                id = zID,
-                name = customZones[zID].name,
-                type = "RewardContainer"
-            })
-
             customZones[zID].lootX = args.x
             customZones[zID].lootY = args.y
             customZones[zID].lootZ = args.z
-            customZones[zID].lootObjectIndex = args.objectIndex
-            customZones[zID].lootSpriteName = args.spriteName
 
             ModData.add("FactionZoneDefinitions", customZones)
             ModData.transmit("FactionZoneDefinitions")
             RefreshZoneList() -- Refresh server cache immediately
 
-            local syncArgs = APZ_ZonedContainerGuard.toObjectArgs(linkedObject)
-            if syncArgs then
-                syncArgs.zoneLink = APZ_ZonedContainerGuard.getObjectZoneLink(linkedObject)
-                sendServerCommand("APZ_ZonedContainerGuard", "syncObject", syncArgs)
-            end
-            player:Say("Container Linkado para " .. customZones[zID].name)
-            print("SERVER: Container Linkado para " .. customZones[zID].name)
+            player:Say("Reward Container Linked for " .. customZones[zID].name)
+            print("SERVER: Linked Reward Container for " .. customZones[zID].name)
         end
     end
 
@@ -934,7 +941,8 @@ local function OnClientCommand(module, command, player, args)
         local alliances = ModData.get("FactionAlliances") or {}
         if not CanCreateAlliance(alliances, myFaction, targetFaction) then
             player:Say("Alliance limit reached. Each faction can only have one ally.")
-            print("FACTION WAR: Blocked alliance invite from " .. myFaction .. " to " .. targetFaction .. " due to one-ally limit")
+            print("FACTION WAR: Blocked alliance invite from " .. myFaction .. " to " .. targetFaction ..
+                      " due to one-ally limit")
             return
         end
 
@@ -965,7 +973,8 @@ local function OnClientCommand(module, command, player, args)
         local alliances = ModData.get("FactionAlliances") or {}
         if state and not CanCreateAlliance(alliances, myFaction, targetFaction) then
             player:Say("Alliance limit reached. Each faction can only have one ally.")
-            print("FACTION WAR: Blocked alliance between " .. myFaction .. " and " .. targetFaction .. " due to one-ally limit")
+            print("FACTION WAR: Blocked alliance between " .. myFaction .. " and " .. targetFaction ..
+                      " due to one-ally limit")
             return
         end
 

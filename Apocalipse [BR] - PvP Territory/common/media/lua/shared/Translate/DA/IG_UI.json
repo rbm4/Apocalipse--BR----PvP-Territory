@@ -84,5 +84,10 @@
     "IGUI_FactionMapEditor_DeleteZoneConfirm":  "Er du sikker paa, at du vil slette zone \u0027%s\u0027?",
     "IGUI_FactionMapEditor_Say_ZoneDeleted":  "Zone slettet.",
     "IGUI_FactionMapEditor_Context_Territories":  "Territorier",
-    "IGUI_FactionMapEditor_Context_FactionPanel":  "Fraktionspanel"
+    "IGUI_FactionMapEditor_Context_FactionPanel":  "Fraktionspanel",
+    "IGUI_AdminZoneCreator_Context_LinkRewardCrate":  "Fraktionskontrol: Link belonningskasse",
+    "IGUI_AdminZoneCreator_DefaultSuffix":  "Standard",
+    "IGUI_AdminZoneCreator_NoDynamicZonesFound":  "Ingen dynamiske zoner fundet",
+    "IGUI_AdminZoneCreator_Say_RewardContainerLinked":  "Belonningscontainer linket til zone \u0027%1\u0027!",
+    "IGUI_RewardCrate_Protected":  "Belonningskassen kan ikke flyttes eller odelaegges."
 }

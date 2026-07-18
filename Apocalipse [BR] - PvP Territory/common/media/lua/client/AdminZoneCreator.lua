@@ -6,7 +6,6 @@
 if isServer() then return end
 
 require "FactionZones"
-require "APZ_ZonedContainerGuard"
 
 local function OnRightClickContext(playerNum, context, worldobjects, test)
     local player = getSpecificPlayer(playerNum)
@@ -23,20 +22,14 @@ local function OnRightClickContext(playerNum, context, worldobjects, test)
     -- Scan clicked objects for a container (Crate, Fridge, Shelf, etc.)
     local clickedContainer = nil
     for _, obj in ipairs(worldobjects) do
-        local objType = type(obj)
-        if objType == "table" or objType == "userdata" then
-            local ok, container = pcall(function()
-                return obj:getContainer()
-            end)
-            if ok and container then
-                clickedContainer = obj
-                break
-            end
+        if obj:getContainer() then
+            clickedContainer = obj
+            break
         end
     end
 
     if clickedContainer then
-        local option = context:addOption("Faction Control: Link Reward Crate", worldobjects, nil)
+        local option = context:addOption(getText("IGUI_AdminZoneCreator_Context_LinkRewardCrate"), worldobjects, nil)
         local subMenu = context:getNew(context)
         context:addSubMenu(option, subMenu)
         
@@ -45,11 +38,9 @@ local function OnRightClickContext(playerNum, context, worldobjects, test)
         local function linkCrate(zoneID, zoneName)
             local sq = clickedContainer:getSquare()
             if sq then
-                local args = APZ_ZonedContainerGuard.toObjectArgs(clickedContainer) or { x = sq:getX(), y = sq:getY(), z = sq:getZ() }
-                args.zoneID = zoneID
-                args.zoneName = zoneName
+                local args = { zoneID = zoneID, x = sq:getX(), y = sq:getY(), z = sq:getZ() }
                 sendClientCommand(player, "FactionWar", "SetRewardContainer", args)
-                player:Say("Reward Container Linked to zone '" .. zoneName .. "'!")
+                player:Say(getText("IGUI_AdminZoneCreator_Say_RewardContainerLinked", zoneName))
             end
         end
 
@@ -73,18 +64,15 @@ local function OnRightClickContext(playerNum, context, worldobjects, test)
             for _, z in ipairs(FactionZones.List) do
                 zonesExist = true
                 local zName = z.name or z.id
-                subMenu:addOption(zName .. " (Default)", worldobjects, function() linkCrate(z.id, zName) end)
+                subMenu:addOption(zName .. " (" .. getText("IGUI_AdminZoneCreator_DefaultSuffix") .. ")", worldobjects, function() linkCrate(z.id, zName) end)
             end
         end
         
         if not zonesExist then
-            local subOption = subMenu:addOption("No dynamic zones found", worldobjects, nil)
+            local subOption = subMenu:addOption(getText("IGUI_AdminZoneCreator_NoDynamicZonesFound"), worldobjects, nil)
             subOption.notClickable = true
         end
     end
 end
 
 Events.OnFillWorldObjectContextMenu.Add(OnRightClickContext)
-
-
-

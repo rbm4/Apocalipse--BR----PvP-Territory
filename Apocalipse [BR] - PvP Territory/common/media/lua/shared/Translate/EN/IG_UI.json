@@ -84,5 +84,10 @@
     "IGUI_FactionMapEditor_DeleteZoneConfirm":  "Are you sure you want to delete zone \u0027%s\u0027?",
     "IGUI_FactionMapEditor_Say_ZoneDeleted":  "Zone deleted.",
     "IGUI_FactionMapEditor_Context_Territories":  "Territories",
-    "IGUI_FactionMapEditor_Context_FactionPanel":  "Faction Panel"
+    "IGUI_FactionMapEditor_Context_FactionPanel":  "Faction Panel",
+    "IGUI_AdminZoneCreator_Context_LinkRewardCrate":  "Faction control: Link reward crate",
+    "IGUI_AdminZoneCreator_DefaultSuffix":  "Default",
+    "IGUI_AdminZoneCreator_NoDynamicZonesFound":  "No dynamic zones found",
+    "IGUI_AdminZoneCreator_Say_RewardContainerLinked":  "Reward container linked to zone \u0027%1\u0027!",
+    "IGUI_RewardCrate_Protected":  "Reward crate cannot be moved or destroyed."
 }
