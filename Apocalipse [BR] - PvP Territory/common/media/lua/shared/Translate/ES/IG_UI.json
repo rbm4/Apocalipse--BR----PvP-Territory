@@ -89,5 +89,6 @@
     "IGUI_AdminZoneCreator_DefaultSuffix":  "Predeterminada",
     "IGUI_AdminZoneCreator_NoDynamicZonesFound":  "No se encontraron zonas dinamicas",
     "IGUI_AdminZoneCreator_Say_RewardContainerLinked":  "Contenedor de recompensa vinculado a la zona \u0027%1\u0027!",
-    "IGUI_RewardCrate_Protected":  "La caja de recompensa no se puede mover ni destruir."
+    "IGUI_RewardCrate_Protected":  "La caja de recompensa no se puede mover ni destruir.",
+    "IGUI_FactionWar_ConquestDeathCooldown":  "Moriste durante esta conquista. Tu presencia no contara durante %1 minutos mas."
 }

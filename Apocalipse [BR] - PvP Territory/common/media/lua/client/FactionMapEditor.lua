@@ -738,7 +738,9 @@ function FactionControlPanelUI:populateList()
     if onlinePlayers then
         for i=0, onlinePlayers:size()-1 do
             local p = onlinePlayers:get(i)
-            onlineMap[p:getUsername()] = true
+            if p then
+                onlineMap[p:getUsername()] = true
+            end
         end
     end
     
@@ -755,6 +757,17 @@ function FactionControlPanelUI:populateList()
         if facName ~= self.myFactionName then
             local ownerName = fac:getOwner()
             local isOnline = onlineMap[ownerName] == true
+            if not isOnline then
+                local members = fac:getPlayers()
+                if members then
+                    for m=0, members:size()-1 do
+                        if onlineMap[members:get(m)] == true then
+                            isOnline = true
+                            break
+                        end
+                    end
+                end
+            end
             local isAllied = myAlliances[facName] == true
             local isInvitedMe = myInvites[facName] == true
             local isInvitedThem = modDataInvites[facName] and modDataInvites[facName][self.myFactionName] == true

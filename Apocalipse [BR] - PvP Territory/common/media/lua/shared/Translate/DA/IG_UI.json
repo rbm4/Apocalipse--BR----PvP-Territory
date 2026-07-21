@@ -89,5 +89,6 @@
     "IGUI_AdminZoneCreator_DefaultSuffix":  "Standard",
     "IGUI_AdminZoneCreator_NoDynamicZonesFound":  "Ingen dynamiske zoner fundet",
     "IGUI_AdminZoneCreator_Say_RewardContainerLinked":  "Belonningscontainer linket til zone \u0027%1\u0027!",
-    "IGUI_RewardCrate_Protected":  "Belonningskassen kan ikke flyttes eller odelaegges."
+    "IGUI_RewardCrate_Protected":  "Belonningskassen kan ikke flyttes eller odelaegges.",
+    "IGUI_FactionWar_ConquestDeathCooldown":  "Du dode under denne erobring. Din tilstedevaerelse taeller ikke i %1 minutter mere."
 }

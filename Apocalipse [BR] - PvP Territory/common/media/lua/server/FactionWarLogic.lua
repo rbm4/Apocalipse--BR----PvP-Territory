@@ -6,6 +6,7 @@ if not isServer() then
 end
 
 local RegionManagerServer = require "RegionManager_Server"
+local ConquestDeaths = require "FactionWarConquestDeaths"
 
 local tickCounter = 0
 local syncTimer = 0
@@ -32,6 +33,10 @@ local function InitFactionData()
         ModData.add("FactionLastSeen", {})
         print("SERVER: FactionLastSeen created.")
     end
+    if not ModData.get("FactionOfflineProtectionLastSeen") then
+        ModData.add("FactionOfflineProtectionLastSeen", {})
+        print("SERVER: FactionOfflineProtectionLastSeen created.")
+    end
     if not ModData.get("FactionAlliances") then
         ModData.add("FactionAlliances", {})
         print("SERVER: FactionAlliances created.")
@@ -46,8 +51,22 @@ local function InitFactionData()
         })
         print("SERVER: FactionWarPayday created.")
     end
+    if not ModData.get("FactionWarConquestDeaths") then
+        ModData.add("FactionWarConquestDeaths", {})
+        print("SERVER: FactionWarConquestDeaths created.")
+    end
 end
 InitFactionData()
+
+local function GetRealTimeHours()
+    if getTimestamp then
+        return getTimestamp() / 3600
+    end
+    if getTimeInMillis then
+        return getTimeInMillis() / 3600000
+    end
+    return os.time() / 3600
+end
 
 local function AreFactionsAllied(fac1, fac2)
     if not fac1 or not fac2 or fac1 == "Nomad" or fac2 == "Nomad" or fac1 == "Neutral" or fac2 == "Neutral" then
@@ -255,6 +274,7 @@ end
 -- 5. CAPTURE & LOOT LOGIC LOOP
 
 -- LOOT TABLE
+local CommonModsLoot = require "CommonModsLoot"
 
 local lootTableZones = {{
     name = "Standard",
@@ -288,6 +308,57 @@ local lootTableZones = {{
     name = "Posto",
     loot = {}
 }}
+
+CommonModsLoot.mergeIntoZone(lootTableZones, "Workshop",
+    "mod_88toyotaHilux",
+    "mod_85chevyStepVan",
+    "mod_63beetle",
+    "APOCALIPSE_MOTORS_Dadge",
+    "APOCALIPSE_MOTORS_Mustang",
+    "APOCALIPSE_MOTORS_Mustang_66",
+    "APOCALIPSE_MOTORS_Samara",
+    "mod_91fordRanger",
+    "tsarslib",
+    "mod_90fordF350ambulance",
+    "mod_89defender"
+)
+
+CommonModsLoot.mergeIntoZone(lootTableZones, "Bunker",
+    "AnruisiTown",
+    "APOCALISEBR_PACK"
+)
+
+CommonModsLoot.mergeIntoZone(lootTableZones, "Industrial",
+    "APOCALIPSE_MOTORS_Dadge",
+    "APOCALIPSE_MOTORS_Mustang",
+    "APOCALIPSE_MOTORS_Mustang_66",
+    "APOCALIPSE_MOTORS_Samara",
+    "mod_91fordRanger"
+)
+
+CommonModsLoot.mergeIntoZone(lootTableZones, "Estacao",
+    "tsarslib",
+    "mod_90fordF350ambulance",
+    "mod_89defender"
+)
+
+CommonModsLoot.mergeIntoZone(lootTableZones, "Umbrella",
+    "RaccoonCityB42",
+    "APOCALISE_M998"
+)
+
+CommonModsLoot.mergeIntoZone(lootTableZones, "Posto",
+    "APOCALIPSE_DL",
+    "APOCALIPSE_DL_2",
+    "KI5trailers"
+)
+
+CommonModsLoot.mergeIntoZone(lootTableZones, "Hospital",
+    "ZVirusVaccine42BETA",
+    "ResearchLabInternProfession",
+    "Apoc_TOC"
+)
+
 
 local function CheckZoneCaptureProgress()
     if #zonesToProcess == 0 then
@@ -323,10 +394,16 @@ local function CheckZoneCaptureProgress()
     -- while simultaneously updating faction activity timers in real-time.
     local zoneFactionPlayers = {}
     local lastSeenData = ModData.get("FactionLastSeen") or {}
+    local offlineProtectionLastSeen = ModData.get("FactionOfflineProtectionLastSeen") or {}
     local lastSeenChanged = false
+    local offlineProtectionLastSeenChanged = false
     local worldAge = getGameTime():getWorldAgeHours()
+    local realTimeHours = GetRealTimeHours()
 
     local onlinePlayers = getOnlinePlayers()
+    if ConquestDeaths and ConquestDeaths.cleanup then
+        ConquestDeaths.cleanup()
+    end
     if onlinePlayers then
         for i = 0, onlinePlayers:size() - 1 do
             local player = onlinePlayers:get(i)
@@ -338,16 +415,26 @@ local function CheckZoneCaptureProgress()
                         lastSeenData[myFaction] = worldAge
                         lastSeenChanged = true
                     end
+                    if not offlineProtectionLastSeen[myFaction] or (realTimeHours - offlineProtectionLastSeen[myFaction]) > 0.1 then
+                        offlineProtectionLastSeen[myFaction] = realTimeHours
+                        offlineProtectionLastSeenChanged = true
+                    end
                 end
 
                 local zone = GetZoneForPlayer(player)
                 if zone then
                     local zoneID = zone.id
-                    if not zoneFactionPlayers[zoneID] then
-                        zoneFactionPlayers[zoneID] = {}
+                    if ConquestDeaths and ConquestDeaths.isPlayerExcluded and ConquestDeaths.isPlayerExcluded(player, zoneID) then
+                        if ConquestDeaths.showCooldownHalo then
+                            ConquestDeaths.showCooldownHalo(player, zoneID)
+                        end
+                    else
+                        if not zoneFactionPlayers[zoneID] then
+                            zoneFactionPlayers[zoneID] = {}
+                        end
+                        local factionKey = myFaction or "Nomad"
+                        zoneFactionPlayers[zoneID][factionKey] = (zoneFactionPlayers[zoneID][factionKey] or 0) + 1
                     end
-                    local factionKey = myFaction or "Nomad"
-                    zoneFactionPlayers[zoneID][factionKey] = (zoneFactionPlayers[zoneID][factionKey] or 0) + 1
 
                     if tickCounter % 50 == 0 then
                         print("DEBUG DETECT: Player '" .. player:getUsername() .. "' INSIDE " .. zone.name)
@@ -362,6 +449,9 @@ local function CheckZoneCaptureProgress()
         if ModData.transmit then
             ModData.transmit("FactionLastSeen")
         end
+    end
+    if offlineProtectionLastSeenChanged then
+        ModData.add("FactionOfflineProtectionLastSeen", offlineProtectionLastSeen)
     end
 
     for _, zone in ipairs(zonesToProcess) do
@@ -385,14 +475,27 @@ local function CheckZoneCaptureProgress()
         local defenderName = data.owner or "Neutral"
         local attackerName = nil
         local attackersCount = 0
+        local tiedAttackLead = false
+        local hasAnyAttacker = false
 
         for faction, count in pairs(playersInZone) do
             if faction ~= defenderName and faction ~= "Nomad" and count > 0 then
                 if not AreFactionsAllied(faction, defenderName) then
-                    attackerName = faction
-                    attackersCount = attackersCount + count
+                    hasAnyAttacker = true
+                    if count > attackersCount then
+                        attackerName = faction
+                        attackersCount = count
+                        tiedAttackLead = false
+                    elseif count == attackersCount then
+                        tiedAttackLead = true
+                    end
                 end
             end
+        end
+
+        if tiedAttackLead then
+            attackerName = nil
+            attackersCount = 0
         end
 
         -- Check defenders (owner + allies)
@@ -405,20 +508,7 @@ local function CheckZoneCaptureProgress()
             end
         end
 
-        local isContested = (defendersCount > 0 and attackerName ~= nil)
-
-        -- If multiple attackers from different non-allied factions are in the zone, it's also contested
-        local otherAttackers = 0
-        for faction, count in pairs(playersInZone) do
-            if faction ~= defenderName and faction ~= "Nomad" and count > 0 then
-                if not AreFactionsAllied(faction, defenderName) then
-                    otherAttackers = otherAttackers + 1
-                end
-            end
-        end
-        if otherAttackers > 1 then
-            isContested = true
-        end
+        local isContested = (defendersCount > 0 and (attackerName ~= nil or hasAnyAttacker)) or tiedAttackLead
 
         -- Update isContested in sync data
         if data.isContested ~= isContested then
@@ -444,11 +534,12 @@ local function CheckZoneCaptureProgress()
                 isProtected = true
 
                 -- [NEW] Check Expiry Timer
-                local expiryHours = sb.OfflineProtectionExpiry or 24
+                local expiryHours = (sb and sb.OfflineProtectionExpiry) or 24
                 if expiryHours > 0 then
-                    local lastSeenData = ModData.get("FactionLastSeen") or {}
-                    local lastSeen = lastSeenData[defenderName] or getGameTime():getWorldAgeHours()
-                    local hoursInactive = getGameTime():getWorldAgeHours() - lastSeen
+                    local lastSeenData = ModData.get("FactionOfflineProtectionLastSeen") or {}
+                    local nowHours = GetRealTimeHours()
+                    local lastSeen = lastSeenData[defenderName] or nowHours
+                    local hoursInactive = nowHours - lastSeen
 
                     if hoursInactive >= expiryHours then
                         isProtected = false -- Protection expired!
@@ -465,17 +556,44 @@ local function CheckZoneCaptureProgress()
         -- Capture / Decay
         if attackerName and not isContested and not isProtected then
             local oldProgress = data.progress
+            local previousAttacker = data.attacker
+            local reversingProgress = previousAttacker and previousAttacker ~= attackerName and data.progress > 0
 
-            -- Apply Multiplier
-            data.progress = data.progress + (attackersCount * pointsPerTick)
-            data.progress = math.min(data.progress, zone.captureTime)
+            if reversingProgress then
+                data.progress = data.progress - (attackersCount * pointsPerTick)
+                if data.progress < 0 then
+                    data.progress = 0
+                end
+            else
+                if data.attacker ~= attackerName then
+                    data.attacker = attackerName
+                    dataChanged = true
+                end
+
+                -- Apply Multiplier
+                data.progress = data.progress + (attackersCount * pointsPerTick)
+                data.progress = math.min(data.progress, zone.captureTime)
+            end
 
             if data.progress ~= oldProgress then
                 dataChanged = true
             end
 
-            if data.attacker ~= attackerName then
-                data.attacker = attackerName
+            if reversingProgress then
+                if data.isReversing ~= true or data.reverseAttacker ~= attackerName then
+                    data.isReversing = true
+                    data.reverseAttacker = attackerName
+                    dataChanged = true
+                end
+                if data.progress <= 0 then
+                    data.attacker = nil
+                    data.isReversing = false
+                    data.reverseAttacker = nil
+                    dataChanged = true
+                end
+            elseif data.isReversing or data.reverseAttacker then
+                data.isReversing = false
+                data.reverseAttacker = nil
                 dataChanged = true
             end
 
@@ -519,7 +637,7 @@ local function CheckZoneCaptureProgress()
                 dataChanged = true
             end
 
-            if data.progress >= zone.captureTime then
+            if not reversingProgress and data.progress >= zone.captureTime then
                 print("DEBUG WIN: Zone " .. zone.name .. " FLIPPED to " .. tostring(attackerName))
 
                 -- [PHASE 2] RADIO-STYLE CAPTURE ANNOUNCEMENT
@@ -545,6 +663,8 @@ local function CheckZoneCaptureProgress()
                 data.owner = attackerName
                 data.progress = 0
                 data.attacker = nil
+                data.isReversing = false
+                data.reverseAttacker = nil
                 data.col = GetFactionColorRaw(attackerName)
                 data.lastLootTime = -100 -- Reset loot timer on capture
                 data.wasUnderAttack = false
@@ -569,6 +689,11 @@ local function CheckZoneCaptureProgress()
                 data.attacker = nil
                 dataChanged = true
             end
+            if data.isReversing or data.reverseAttacker then
+                data.isReversing = false
+                data.reverseAttacker = nil
+                dataChanged = true
+            end
 
             -- Reset attack state if zone is no longer under attack
             if data.wasUnderAttack then
@@ -583,6 +708,11 @@ local function CheckZoneCaptureProgress()
             end
             if data.attacker ~= nil then
                 data.attacker = nil
+                dataChanged = true
+            end
+            if data.isReversing or data.reverseAttacker then
+                data.isReversing = false
+                data.reverseAttacker = nil
                 dataChanged = true
             end
         end
@@ -653,26 +783,55 @@ local function CheckZoneCaptureProgress()
                                 end
                                 container:AddItem(lootItem)
                             end
-
                             -- Bonus variety items based on zone type
                             if sb.CrateBonusLoot ~= false then
                                 if zone.zoneType == "Armory" then
-                                    local armoryLoot = lootTableZones[1].loot
+                                    local armoryLoot = lootTableZones[2].loot
                                     for _ = 1, ZombRand(4, 10) do
                                         container:AddItem(armoryLoot[ZombRand(#armoryLoot) + 1])
                                     end
                                 elseif zone.zoneType == "Hospital" then
-                                    local medicalLoot = lootTableZones[2].loot
+                                    local medicalLoot = lootTableZones[3].loot
                                     for _ = 1, ZombRand(5, 13) do
                                         container:AddItem(medicalLoot[ZombRand(#medicalLoot) + 1])
                                     end
                                 elseif zone.zoneType == "Workshop" then
-                                    local toolsLoot = lootTableZones[3].loot
+                                    local toolsLoot = lootTableZones[4].loot
+                                    for _ = 1, ZombRand(5, 11) do
+                                        container:AddItem(toolsLoot[ZombRand(#toolsLoot) + 1])
+                                    end
+                                elseif zone.zoneType == "Workshop" then
+                                    local toolsLoot = lootTableZones[4].loot
+                                    for _ = 1, ZombRand(5, 11) do
+                                        container:AddItem(toolsLoot[ZombRand(#toolsLoot) + 1])
+                                    end
+                                elseif zone.zoneType == "Bunker" then
+                                    local toolsLoot = lootTableZones[5].loot
+                                    for _ = 1, ZombRand(5, 11) do
+                                        container:AddItem(toolsLoot[ZombRand(#toolsLoot) + 1])
+                                    end
+                                elseif zone.zoneType == "Industrial" then
+                                    local toolsLoot = lootTableZones[6].loot
+                                    for _ = 1, ZombRand(5, 11) do
+                                        container:AddItem(toolsLoot[ZombRand(#toolsLoot) + 1])
+                                    end 
+                                elseif zone.zoneType == "Estacao" then
+                                    local toolsLoot = lootTableZones[7].loot
+                                    for _ = 1, ZombRand(5, 11) do
+                                        container:AddItem(toolsLoot[ZombRand(#toolsLoot) + 1])
+                                    end
+                                elseif zone.zoneType == "Umbrella" then
+                                    local toolsLoot = lootTableZones[8].loot
+                                    for _ = 1, ZombRand(5, 11) do
+                                        container:AddItem(toolsLoot[ZombRand(#toolsLoot) + 1])
+                                    end
+                                elseif zone.zoneType == "Posto" then
+                                    local toolsLoot = lootTableZones[9].loot
                                     for _ = 1, ZombRand(5, 11) do
                                         container:AddItem(toolsLoot[ZombRand(#toolsLoot) + 1])
                                     end
                                 else
-                                    local standardLoot = lootTableZones[0].loot
+                                    local standardLoot = lootTableZones[1].loot
                                     for _ = 1, ZombRand(4, 9) do
                                         container:AddItem(standardLoot[ZombRand(#standardLoot) + 1])
                                     end

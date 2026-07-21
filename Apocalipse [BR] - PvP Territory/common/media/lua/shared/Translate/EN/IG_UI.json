@@ -89,5 +89,6 @@
     "IGUI_AdminZoneCreator_DefaultSuffix":  "Default",
     "IGUI_AdminZoneCreator_NoDynamicZonesFound":  "No dynamic zones found",
     "IGUI_AdminZoneCreator_Say_RewardContainerLinked":  "Reward container linked to zone \u0027%1\u0027!",
-    "IGUI_RewardCrate_Protected":  "Reward crate cannot be moved or destroyed."
+    "IGUI_RewardCrate_Protected":  "Reward crate cannot be moved or destroyed.",
+    "IGUI_FactionWar_ConquestDeathCooldown":  "You died during this conquest. Your presence will not count for %1 more minutes."
 }

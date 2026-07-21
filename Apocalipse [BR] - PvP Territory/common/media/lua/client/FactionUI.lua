@@ -155,7 +155,9 @@ function FactionProgressBar:render()
     elseif pct > 0 and pct < 1 and owner == self.lastOwner then
         local percentNum = math.floor(pct * 100)
         local attacker = zoneData and zoneData.attacker
-        if attacker and attacker ~= "Nomad" and attacker ~= "Neutral" then
+        if zoneData and zoneData.isReversing and zoneData.reverseAttacker then
+            statusText = tostring(zoneData.reverseAttacker) .. " removendo " .. tostring(attacker or "faccao") .. ": " .. percentNum .. "%"
+        elseif attacker and attacker ~= "Nomad" and attacker ~= "Neutral" then
             statusText = "Capturando " .. attacker .. ": " .. percentNum .. "%"
         else
             statusText = "Captura: " .. percentNum .. "%"
@@ -187,6 +189,16 @@ Events.OnServerCommand.Add(function(module, command, args)
         local player = getPlayer()
         if player then
             player:setHaloNote(args.text, 255, 220, 50, 500)
+        end
+    elseif command == "ConquestDeathCooldown" then
+        local player = getPlayer()
+        if player then
+            local remaining = args and tonumber(args.remaining) or 30
+            local msg = getText("IGUI_FactionWar_ConquestDeathCooldown")
+            if not msg or msg == "IGUI_FactionWar_ConquestDeathCooldown" then
+                msg = "You died during this conquest. Your presence will not count for %1 more minutes."
+            end
+            player:setHaloNote(msg:gsub("%%1", tostring(remaining)), 255, 80, 80, 500)
         end
     end
 end)
