@@ -1308,6 +1308,15 @@ local function OnFillWorldObjectContextMenu(playerNum, context, worldobjects, te
     context:addOption(optionName, worldobjects, function()
         ToggleFactionControlPanel()
     end)
+
+    if hasAdminAccessLevel() then
+        context:addOption(getText("IGUI_FactionMapEditor_Context_ForceRewardCrates"), worldobjects, function()
+            sendClientCommand(player, "FactionWar", "ForceRewardCrateRespawn", {})
+        end)
+        context:addOption(getText("IGUI_FactionMapEditor_Context_ForceFactionSalary"), worldobjects, function()
+            sendClientCommand(player, "FactionWar", "ForceFactionSalary", {})
+        end)
+    end
 end
 
 Events.OnFillWorldObjectContextMenu.Add(OnFillWorldObjectContextMenu)

@@ -12,6 +12,7 @@ local tickCounter = 0
 local syncTimer = 0
 local zonesToProcess = {} -- GLOBAL CACHE
 local alertCooldowns = {} -- Rate-limit capture alerts: {zoneID = worldAgeHours}
+local DistributeDailySalary
 
 -- 1. INITIALIZE DATA
 local function InitFactionData()
@@ -892,6 +893,35 @@ Events.OnTick.Add(function()
 end)
 
 -- 7. CLIENT COMMANDS
+local function ForceRewardCrateRestockDates()
+    local allZoneStatus = ModData.get("FactionWarZones") or {}
+    local worldAge = getGameTime():getWorldAgeHours()
+    local changed = false
+
+    if #zonesToProcess == 0 then
+        RefreshZoneList()
+    end
+
+    for _, zone in ipairs(zonesToProcess) do
+        if zone.lootX then
+            local data = allZoneStatus[zone.id]
+            if data then
+                data.lastLootTime = worldAge - 25
+                changed = true
+            end
+        end
+    end
+
+    if changed then
+        ModData.add("FactionWarZones", allZoneStatus)
+        if ModData.transmit then
+            ModData.transmit("FactionWarZones")
+        end
+    end
+
+    return changed
+end
+
 local function OnClientCommand(module, command, player, args)
     if module ~= "FactionWar" then
         return
@@ -899,6 +929,7 @@ local function OnClientCommand(module, command, player, args)
 
     local access = player:getAccessLevel()
     local isAdmin = not (not access or access == "None" or access == "" or access == "none" or access == "Player")
+    local isStrictAdmin = access and access:lower() == "admin"
     local isDebug = getCore() and getCore():getDebug() or false
     if isCoopHost and isCoopHost() then
         isAdmin = true
@@ -1090,6 +1121,29 @@ local function OnClientCommand(module, command, player, args)
         end
     end
 
+    if command == "ForceRewardCrateRespawn" then
+        if not isStrictAdmin then
+            return
+        end
+        if ForceRewardCrateRestockDates() then
+            player:setHaloNote(getText("IGUI_FactionMapEditor_Admin_RewardCratesQueued"), 80, 255, 80, 500)
+            print("FACTION WAR: Admin " .. player:getUsername() .. " forced reward crate respawn dates.")
+        else
+            player:setHaloNote(getText("IGUI_FactionMapEditor_Admin_NoRewardCratesQueued"), 255, 220, 80, 500)
+        end
+    end
+
+    if command == "ForceFactionSalary" then
+        if not isStrictAdmin then
+            return
+        end
+        if DistributeDailySalary then
+            DistributeDailySalary(true)
+        end
+        player:setHaloNote(getText("IGUI_FactionMapEditor_Admin_SalaryTriggered"), 80, 255, 80, 500)
+        print("FACTION WAR: Admin " .. player:getUsername() .. " forced faction salary payout.")
+    end
+
     if command == "SendAllianceInvite" then
         local myFaction = args.myFaction
         local targetFaction = args.targetFaction
@@ -1220,9 +1274,9 @@ end
 -- =======================================================
 -- REWARD SYSTEM: DAILY FACTION SALARY (9:00 AM)
 -- =======================================================
-local function DistributeDailySalary()
+function DistributeDailySalary(force)
     local gameTime = getGameTime()
-    if gameTime:getHour() ~= 9 then
+    if not force and gameTime:getHour() ~= 9 then
         return
     end -- Only run at 9 AM
 
@@ -1233,7 +1287,7 @@ local function DistributeDailySalary()
     local paydayData = ModData.get("FactionWarPayday") or {
         lastPaidDay = -1
     }
-    if paydayData.lastPaidDay == currentDay then
+    if not force and paydayData.lastPaidDay == currentDay then
         return
     end
 
@@ -1245,7 +1299,7 @@ local function DistributeDailySalary()
     local rewardAmt = (sb and sb.SalaryAmount) or 1
 
     -- [NEW] Advanced Custom Item Check (Supports multiple items split by commas or semicolons)
-    local customItem = sb.CustomSalaryItem
+    local customItem = sb and sb.CustomSalaryItem
     local customList = ParseCustomItems(customItem)
     local rewardItem = "Base.Bullets9mmBox"
 
@@ -1258,7 +1312,7 @@ local function DistributeDailySalary()
             [4] = "Base.FirstAidKit",
             [5] = "Base.NailsBox"
         }
-        rewardItem = itemMap[sb.SalaryItemType] or "Base.Bullets9mmBox"
+        rewardItem = itemMap[sb and sb.SalaryItemType] or "Base.Bullets9mmBox"
     end
 
     -- 2. Count Zones per Faction
@@ -1293,15 +1347,17 @@ local function DistributeDailySalary()
                 if not payMsg or payMsg == "IGUI_FactionWar_FactionPayday" then
                     payMsg = "FACTION PAYDAY: Received %1 items!"
                 end
-                player:Say(payMsg:gsub("%%1", tostring(totalPay)))
+                player:setHaloNote(payMsg:gsub("%%1", tostring(totalPay)), 255, 220, 50, 500)
             end
         end
     end
 
-    paydayData.lastPaidDay = currentDay
-    ModData.add("FactionWarPayday", paydayData)
-    if ModData.transmit then
-        ModData.transmit("FactionWarPayday")
+    if not force then
+        paydayData.lastPaidDay = currentDay
+        ModData.add("FactionWarPayday", paydayData)
+        if ModData.transmit then
+            ModData.transmit("FactionWarPayday")
+        end
     end
 
     print("SERVER: Distributed Daily Faction Salaries.")

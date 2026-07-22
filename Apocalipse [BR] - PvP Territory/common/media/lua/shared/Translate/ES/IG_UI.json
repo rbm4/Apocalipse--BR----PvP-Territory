@@ -90,5 +90,12 @@
     "IGUI_AdminZoneCreator_NoDynamicZonesFound":  "No se encontraron zonas dinamicas",
     "IGUI_AdminZoneCreator_Say_RewardContainerLinked":  "Contenedor de recompensa vinculado a la zona \u0027%1\u0027!",
     "IGUI_RewardCrate_Protected":  "La caja de recompensa no se puede mover ni destruir.",
-    "IGUI_FactionWar_ConquestDeathCooldown":  "Moriste durante esta conquista. Tu presencia no contara durante %1 minutos mas."
+    "IGUI_FactionMapEditor_Context_ForceRewardCrates":  "Control de faccion: Forzar reaparicion de cajas",
+    "IGUI_FactionMapEditor_Context_ForceFactionSalary":  "Control de faccion: Forzar pago",
+    "IGUI_FactionMapEditor_Admin_RewardCratesQueued":  "Reaparicion de cajas de recompensa programada.",
+    "IGUI_FactionMapEditor_Admin_NoRewardCratesQueued":  "No se encontraron cajas de recompensa vinculadas.",
+    "IGUI_FactionMapEditor_Admin_SalaryTriggered":  "Pago de salario de faccion activado.",
+    "IGUI_FactionWar_ConquestDeathCooldown":  "Moriste durante esta conquista. Tu presencia no contara durante %1 minutos mas.",
+    "IGUI_FactionWar_SledgehammerLimitReached":  "Limite de demolicion del territorio alcanzado (%1/%2). Intentalo de nuevo en %3h.",
+    "IGUI_FactionWar_EnemyTerritoryPickupBlocked":  "No puedes recoger objetos en territorio enemigo."
 }

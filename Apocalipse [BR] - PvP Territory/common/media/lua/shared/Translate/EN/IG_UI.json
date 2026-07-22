@@ -90,5 +90,12 @@
     "IGUI_AdminZoneCreator_NoDynamicZonesFound":  "No dynamic zones found",
     "IGUI_AdminZoneCreator_Say_RewardContainerLinked":  "Reward container linked to zone \u0027%1\u0027!",
     "IGUI_RewardCrate_Protected":  "Reward crate cannot be moved or destroyed.",
-    "IGUI_FactionWar_ConquestDeathCooldown":  "You died during this conquest. Your presence will not count for %1 more minutes."
+    "IGUI_FactionMapEditor_Context_ForceRewardCrates":  "Faction control: Force reward crate respawn",
+    "IGUI_FactionMapEditor_Context_ForceFactionSalary":  "Faction control: Force salary payout",
+    "IGUI_FactionMapEditor_Admin_RewardCratesQueued":  "Reward crate respawn queued.",
+    "IGUI_FactionMapEditor_Admin_NoRewardCratesQueued":  "No linked reward crates were found.",
+    "IGUI_FactionMapEditor_Admin_SalaryTriggered":  "Faction salary payout triggered.",
+    "IGUI_FactionWar_ConquestDeathCooldown":  "You died during this conquest. Your presence will not count for %1 more minutes.",
+    "IGUI_FactionWar_SledgehammerLimitReached":  "Territory demolition limit reached (%1/%2). Try again in %3h.",
+    "IGUI_FactionWar_EnemyTerritoryPickupBlocked":  "You cannot pick up objects in enemy territory."
 }

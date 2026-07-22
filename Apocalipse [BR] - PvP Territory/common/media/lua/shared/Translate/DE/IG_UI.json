@@ -90,5 +90,12 @@
     "IGUI_AdminZoneCreator_NoDynamicZonesFound":  "Keine dynamischen Zonen gefunden",
     "IGUI_AdminZoneCreator_Say_RewardContainerLinked":  "Belohnungscontainer mit Zone \u0027%1\u0027 verknuepft!",
     "IGUI_RewardCrate_Protected":  "Belohnungskiste kann nicht bewegt oder zerstoert werden.",
-    "IGUI_FactionWar_ConquestDeathCooldown":  "Du bist waehrend dieser Eroberung gestorben. Deine Anwesenheit zaehlt noch %1 Minuten nicht."
+    "IGUI_FactionMapEditor_Context_ForceRewardCrates":  "Fraktionskontrolle: Belohnungskisten-Respawn erzwingen",
+    "IGUI_FactionMapEditor_Context_ForceFactionSalary":  "Fraktionskontrolle: Gehaltszahlung erzwingen",
+    "IGUI_FactionMapEditor_Admin_RewardCratesQueued":  "Belohnungskisten-Respawn vorgemerkt.",
+    "IGUI_FactionMapEditor_Admin_NoRewardCratesQueued":  "Keine verknuepften Belohnungskisten gefunden.",
+    "IGUI_FactionMapEditor_Admin_SalaryTriggered":  "Fraktionsgehaltszahlung ausgeloest.",
+    "IGUI_FactionWar_ConquestDeathCooldown":  "Du bist waehrend dieser Eroberung gestorben. Deine Anwesenheit zaehlt noch %1 Minuten nicht.",
+    "IGUI_FactionWar_SledgehammerLimitReached":  "Abrisslimit im Territorium erreicht (%1/%2). Versuche es erneut in %3 Std.",
+    "IGUI_FactionWar_EnemyTerritoryPickupBlocked":  "Du kannst in feindlichem Territorium keine Objekte aufheben."
 }

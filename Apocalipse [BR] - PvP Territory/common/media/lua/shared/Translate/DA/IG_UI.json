@@ -90,5 +90,12 @@
     "IGUI_AdminZoneCreator_NoDynamicZonesFound":  "Ingen dynamiske zoner fundet",
     "IGUI_AdminZoneCreator_Say_RewardContainerLinked":  "Belonningscontainer linket til zone \u0027%1\u0027!",
     "IGUI_RewardCrate_Protected":  "Belonningskassen kan ikke flyttes eller odelaegges.",
-    "IGUI_FactionWar_ConquestDeathCooldown":  "Du dode under denne erobring. Din tilstedevaerelse taeller ikke i %1 minutter mere."
+    "IGUI_FactionMapEditor_Context_ForceRewardCrates":  "Fraktionskontrol: Tving belonningskasse-respawn",
+    "IGUI_FactionMapEditor_Context_ForceFactionSalary":  "Fraktionskontrol: Tving lonudbetaling",
+    "IGUI_FactionMapEditor_Admin_RewardCratesQueued":  "Belonningskasse-respawn sat i ko.",
+    "IGUI_FactionMapEditor_Admin_NoRewardCratesQueued":  "Ingen linkede belonningskasser fundet.",
+    "IGUI_FactionMapEditor_Admin_SalaryTriggered":  "Fraktionslonudbetaling udlost.",
+    "IGUI_FactionWar_ConquestDeathCooldown":  "Du dode under denne erobring. Din tilstedevaerelse taeller ikke i %1 minutter mere.",
+    "IGUI_FactionWar_SledgehammerLimitReached":  "Territoriets nedrivningsgraense er naaet (%1/%2). Proev igen om %3 t.",
+    "IGUI_FactionWar_EnemyTerritoryPickupBlocked":  "Du kan ikke samle objekter op i fjendtligt territorium."
 }
