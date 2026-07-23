@@ -38,8 +38,8 @@ function FactionProgressBar:render()
     if type(player.getX) ~= "function" then return end
     
     -- 1. Get Zone
-    if not FactionZones or not FactionZones.getZoneAt then return end
-    local zone = FactionZones.getZoneAt(player:getX(), player:getY(), player:getZ())
+    if not FactionZones or not FactionZones.getZoneAtXY then return end
+    local zone = FactionZones.getZoneAtXY(player:getX(), player:getY())
     
     if not zone then 
         self.renderedProgress = nil

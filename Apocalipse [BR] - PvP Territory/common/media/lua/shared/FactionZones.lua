@@ -80,3 +80,7 @@ function FactionZones.getZoneAt(x, y, z)
 
     return nil
 end
+
+function FactionZones.getZoneAtXY(x, y)
+    return FactionZones.getZoneAt(x, y, nil)
+end

@@ -97,5 +97,6 @@
     "IGUI_FactionMapEditor_Admin_SalaryTriggered":  "Faction salary payout triggered.",
     "IGUI_FactionWar_ConquestDeathCooldown":  "You died during this conquest. Your presence will not count for %1 more minutes.",
     "IGUI_FactionWar_SledgehammerLimitReached":  "Territory demolition limit reached (%1/%2). Try again in %3h.",
-    "IGUI_FactionWar_EnemyTerritoryPickupBlocked":  "You cannot pick up objects in enemy territory."
+    "IGUI_FactionWar_EnemyTerritoryPickupBlocked":  "You cannot pick up objects in enemy territory.",
+    "IGUI_FactionWar_NoSafehouse":  "This building cannot be claimed as a safehouse."
 }

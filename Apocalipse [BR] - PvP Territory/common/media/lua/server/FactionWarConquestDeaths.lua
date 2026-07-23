@@ -87,16 +87,12 @@ local function getFactionName(player)
     return "Nomad"
 end
 
-local function getZoneAt(x, y, z)
+local function getConquestZoneAtXY(x, y)
     if FactionZones and FactionZones.List then
         for _, zone in ipairs(FactionZones.List) do
             local inX = (x >= zone.x1 and x <= zone.x2)
             local inY = (y >= zone.y1 and y <= zone.y2)
-            local inZ = true
-            if zone.z1 and zone.z2 then
-                inZ = (z >= zone.z1 and z <= zone.z2)
-            end
-            if inX and inY and inZ then
+            if inX and inY then
                 return zone
             end
         end
@@ -113,11 +109,7 @@ local function getZoneAt(x, y, z)
         if x1 and y1 and x2 and y2 then
             local inX = (x >= x1 and x <= x2)
             local inY = (y >= y1 and y <= y2)
-            local inZ = true
-            if z1 and z2 then
-                inZ = (z >= z1 and z <= z2)
-            end
-            if inX and inY and inZ then
+            if inX and inY then
                 return {
                     id = id,
                     name = zone.name,
@@ -235,7 +227,7 @@ function ConquestDeaths.recordPlayerDeath(player)
     end
     recentDeathKeys[deathKey] = true
 
-    local zone = getZoneAt(player:getX(), player:getY(), player:getZ())
+    local zone = getConquestZoneAtXY(player:getX(), player:getY())
     if not zone or not zone.id then
         return
     end

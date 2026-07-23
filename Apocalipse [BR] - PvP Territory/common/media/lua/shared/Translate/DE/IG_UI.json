@@ -97,5 +97,6 @@
     "IGUI_FactionMapEditor_Admin_SalaryTriggered":  "Fraktionsgehaltszahlung ausgeloest.",
     "IGUI_FactionWar_ConquestDeathCooldown":  "Du bist waehrend dieser Eroberung gestorben. Deine Anwesenheit zaehlt noch %1 Minuten nicht.",
     "IGUI_FactionWar_SledgehammerLimitReached":  "Abrisslimit im Territorium erreicht (%1/%2). Versuche es erneut in %3 Std.",
-    "IGUI_FactionWar_EnemyTerritoryPickupBlocked":  "Du kannst in feindlichem Territorium keine Objekte aufheben."
+    "IGUI_FactionWar_EnemyTerritoryPickupBlocked":  "Du kannst in feindlichem Territorium keine Objekte aufheben.",
+    "IGUI_FactionWar_NoSafehouse":  "Dieses Gebaeude kann nicht als Safehouse beansprucht werden."
 }

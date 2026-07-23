@@ -97,5 +97,6 @@
     "IGUI_FactionMapEditor_Admin_SalaryTriggered":  "Pago de salario de faccion activado.",
     "IGUI_FactionWar_ConquestDeathCooldown":  "Moriste durante esta conquista. Tu presencia no contara durante %1 minutos mas.",
     "IGUI_FactionWar_SledgehammerLimitReached":  "Limite de demolicion del territorio alcanzado (%1/%2). Intentalo de nuevo en %3h.",
-    "IGUI_FactionWar_EnemyTerritoryPickupBlocked":  "No puedes recoger objetos en territorio enemigo."
+    "IGUI_FactionWar_EnemyTerritoryPickupBlocked":  "No puedes recoger objetos en territorio enemigo.",
+    "IGUI_FactionWar_NoSafehouse":  "Este edificio no puede reclamarse como safehouse."
 }

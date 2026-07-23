@@ -98,5 +98,6 @@
     "IGUI_FactionMapEditor_Admin_SalaryTriggered":  "Pagamento de salario das faccoes acionado.",
     "IGUI_FactionWar_ConquestDeathCooldown":  "Voce morreu durante esta conquista. Sua presenca nao contara por mais %1 minutos.",
     "IGUI_FactionWar_SledgehammerLimitReached":  "Limite de demolicao do territorio atingido (%1/%2). Tente novamente em %3h.",
-    "IGUI_FactionWar_EnemyTerritoryPickupBlocked":  "Voce nao pode pegar objetos em territorio inimigo."
+    "IGUI_FactionWar_EnemyTerritoryPickupBlocked":  "Voce nao pode pegar objetos em territorio inimigo.",
+    "IGUI_FactionWar_NoSafehouse":  "Este edificio nao pode ser reivindicado como safehouse."
 }

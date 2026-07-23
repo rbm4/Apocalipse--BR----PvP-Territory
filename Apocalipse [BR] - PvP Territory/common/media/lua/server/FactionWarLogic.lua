@@ -253,19 +253,16 @@ local function ParseCustomItems(itemString)
     return items
 end
 
--- Helper to identify which zone a player is currently in on the server
+-- Helper to identify which zone a player is currently in for capture counting.
+-- Capture presence intentionally ignores Z so players on upper floors still count
+-- for territory zones whose region data is usually authored at z=0.
 local function GetZoneForPlayer(player)
     local x = player:getX()
     local y = player:getY()
-    local z = player:getZ()
     for _, zone in ipairs(zonesToProcess) do
         local inX = (x >= zone.x1 and x <= zone.x2)
         local inY = (y >= zone.y1 and y <= zone.y2)
-        local inZ = true
-        if zone.z1 and zone.z2 then
-            inZ = (z >= zone.z1 and z <= zone.z2)
-        end
-        if inX and inY and inZ then
+        if inX and inY then
             return zone
         end
     end

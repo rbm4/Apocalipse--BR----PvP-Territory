@@ -7,11 +7,11 @@ local DebugStatusCache = {}
 
 local function CheckZoneMovement()
     pcall(function()
-        if not FactionZones or type(FactionZones.getZoneAt) ~= "function" then return end
+        if not FactionZones or type(FactionZones.getZoneAtXY) ~= "function" then return end
         local player = getPlayer()
         if not player then return end 
 
-        local currentZone = FactionZones.getZoneAt(player:getX(), player:getY(), player:getZ())
+        local currentZone = FactionZones.getZoneAtXY(player:getX(), player:getY())
         
         -- [FIX] Compare IDs instead of tables to stop infinite looping
         local currentID = currentZone and currentZone.id

@@ -97,5 +97,6 @@
     "IGUI_FactionMapEditor_Admin_SalaryTriggered":  "Fraktionslonudbetaling udlost.",
     "IGUI_FactionWar_ConquestDeathCooldown":  "Du dode under denne erobring. Din tilstedevaerelse taeller ikke i %1 minutter mere.",
     "IGUI_FactionWar_SledgehammerLimitReached":  "Territoriets nedrivningsgraense er naaet (%1/%2). Proev igen om %3 t.",
-    "IGUI_FactionWar_EnemyTerritoryPickupBlocked":  "Du kan ikke samle objekter op i fjendtligt territorium."
+    "IGUI_FactionWar_EnemyTerritoryPickupBlocked":  "Du kan ikke samle objekter op i fjendtligt territorium.",
+    "IGUI_FactionWar_NoSafehouse":  "Denne bygning kan ikke kraeves som safehouse."
 }

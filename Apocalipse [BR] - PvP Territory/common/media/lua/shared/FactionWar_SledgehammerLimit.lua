@@ -231,7 +231,7 @@ end
 
 local function isBlocked(player, square)
     local state = getLimitState(player, square)
-    return state and state.count >= LIMIT, state
+    return state and state.count > LIMIT, state
 end
 
 local function showBlockedHalo(player, state)
@@ -262,7 +262,7 @@ local function recordLocalDestroy(player, square)
     local entry, data = getEntry(state.playerKey, state.zoneId, now)
     if not entry or not data then return end
 
-    entry.count = math.min(LIMIT, (entry.count or 0) + 1)
+    entry.count = math.min(LIMIT + 1, (entry.count or 0) + 1)
     entry.owner = state.owner
     entry.lastDestroy = now
 end
